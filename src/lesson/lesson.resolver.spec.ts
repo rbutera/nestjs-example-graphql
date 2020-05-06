@@ -39,11 +39,7 @@ describe('LessonResolver', () => {
       const resolved = 'Apebuuji'
       mockLessonService.createLesson.mockResolvedValue(resolved)
 
-      const result = await lessonResolver.createLesson(
-        mockLesson.name,
-        mockLesson.startDate,
-        mockLesson.endDate
-      )
+      const result = await lessonResolver.createLesson(mockLesson)
       expect(result).toBe(resolved)
       expect(mockLessonService.createLesson).toHaveBeenCalledWith(mockLesson)
     })

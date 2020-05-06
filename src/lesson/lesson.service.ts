@@ -2,7 +2,7 @@ import {Lesson} from './lesson.entity'
 import {Injectable} from '@nestjs/common'
 import {InjectRepository} from '@nestjs/typeorm'
 import {Repository} from 'typeorm'
-import {CreateLessonDto} from './dto/create-lesson.dto'
+import {CreateLessonInput} from './input/create-lesson.input'
 import {v4 as uuid} from 'uuid'
 
 @Injectable()
@@ -16,7 +16,7 @@ export class LessonService {
     name,
     startDate,
     endDate,
-  }: CreateLessonDto): Promise<Lesson> {
+  }: CreateLessonInput): Promise<Lesson> {
     const lesson = await this.lessonRepository.create({
       id: uuid(),
       name,
