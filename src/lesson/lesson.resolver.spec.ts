@@ -5,10 +5,11 @@ import {LessonService} from './lesson.service'
 const mockLessonService = {
   createLesson: jest.fn(),
   getLesson: jest.fn(),
+  getLessons: jest.fn(),
 }
 
 describe('LessonResolver', () => {
-  let lessonResolver: LessonResolver
+  let resolver: LessonResolver
   let lessonService: LessonService
 
   beforeEach(async () => {
@@ -21,11 +22,11 @@ describe('LessonResolver', () => {
     }).compile()
 
     lessonService = module.get<LessonService>(LessonService)
-    lessonResolver = module.get<LessonResolver>(LessonResolver)
+    resolver = module.get<LessonResolver>(LessonResolver)
   })
 
   it('should be defined', () => {
-    expect(lessonResolver).toBeDefined()
+    expect(resolver).toBeDefined()
   })
 
   describe('createLesson', () => {
@@ -39,7 +40,7 @@ describe('LessonResolver', () => {
       const resolved = 'Apebuuji'
       mockLessonService.createLesson.mockResolvedValue(resolved)
 
-      const result = await lessonResolver.createLesson(mockLesson)
+      const result = await resolver.createLesson(mockLesson)
       expect(result).toBe(resolved)
       expect(mockLessonService.createLesson).toHaveBeenCalledWith(mockLesson)
     })
@@ -49,9 +50,23 @@ describe('LessonResolver', () => {
     it('calls lessonService.getLesson with the right id', async () => {
       mockLessonService.getLesson.mockResolvedValue('foo')
 
-      await lessonResolver.lesson('1337')
+      await resolver.lesson('1337')
 
       expect(mockLessonService.getLesson).toHaveBeenCalledWith('1337')
+    })
+  })
+
+  describe('lessons', () => {
+    it('is defined', () => {
+      expect(resolver.lessons).toBeDefined()
+    })
+
+    it('gets all the lessons from the lessonService', async () => {
+      const result = ['foo', 'bar']
+      mockLessonService.getLessons.mockResolvedValue(result)
+      const final = await resolver.lessons()
+      expect(mockLessonService.getLessons).toHaveBeenCalled()
+      expect(final).toStrictEqual(result)
     })
   })
 })

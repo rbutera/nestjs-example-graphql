@@ -18,6 +18,7 @@ const mockRepository = {
   create: jest.fn(),
   save: jest.fn(),
   findOne: jest.fn(),
+  find: jest.fn(),
 }
 
 describe('LessonService', () => {
@@ -82,6 +83,19 @@ describe('LessonService', () => {
       const result = await service.getLesson('1337')
       expect(mockRepository.findOne).toHaveBeenCalledWith({id: '1337'})
       expect(result).toStrictEqual(mockTask)
+    })
+  })
+
+  describe('getLessons', () => {
+    it('is defined', () => {
+      expect(service.getLessons).toBeDefined
+    })
+
+    it('gets all lessons', async () => {
+      mockRepository.find.mockResolvedValue([mockTask, mockTask])
+      const result = await service.getLessons()
+      expect(mockRepository.find).toHaveBeenCalled()
+      expect(result).toStrictEqual([mockTask, mockTask])
     })
   })
 })

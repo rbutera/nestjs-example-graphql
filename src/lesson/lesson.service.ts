@@ -1,5 +1,5 @@
 import {Lesson} from './lesson.entity'
-import {Injectable} from '@nestjs/common'
+import {Injectable, Logger} from '@nestjs/common'
 import {InjectRepository} from '@nestjs/typeorm'
 import {Repository} from 'typeorm'
 import {CreateLessonInput} from './input/create-lesson.input'
@@ -28,5 +28,11 @@ export class LessonService {
 
   async getLesson(id: string): Promise<Lesson> {
     return this.lessonRepository.findOne({id})
+  }
+
+  async getLessons(): Promise<Lesson[]> {
+    const logger = new Logger('getLessons')
+    logger.log('started')
+    return this.lessonRepository.find()
   }
 }
