@@ -17,6 +17,7 @@ const mockTask = {
 const mockRepository = {
   create: jest.fn(),
   save: jest.fn(),
+  findOne: jest.fn(),
 }
 
 describe('LessonService', () => {
@@ -67,6 +68,19 @@ describe('LessonService', () => {
           endDate,
         })
       )
+      expect(result).toStrictEqual(mockTask)
+    })
+  })
+
+  describe('getLesson', () => {
+    it('exists', () => {
+      expect(service.getLesson).toBeDefined()
+    })
+
+    it('gets a lesson by id from the repository', async () => {
+      mockRepository.findOne.mockResolvedValue(mockTask)
+      const result = await service.getLesson('1337')
+      expect(mockRepository.findOne).toHaveBeenCalledWith({id: '1337'})
       expect(result).toStrictEqual(mockTask)
     })
   })
