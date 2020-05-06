@@ -1,7 +1,7 @@
 // entity
 import {
   Entity,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   Column,
   BaseEntity,
   ObjectIdColumn,
@@ -12,7 +12,7 @@ export class Student extends BaseEntity {
   @ObjectIdColumn()
   _id: string
 
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string
 
   @Column()
